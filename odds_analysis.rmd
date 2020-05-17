@@ -1,0 +1,253 @@
+---
+title: "SportsAnalytics"
+output:
+  rmdformats::readthedown:
+  highlight: kate
+  toc_depth: 3
+---
+
+  
+```{r setup, include=FALSE}
+
+source("C:\\Users\\chris\\Documents\\R_studio\\SportsAnalytics\\odds_accuracy.R", encoding="UTF-8")
+require(ggplot2)
+#knitr::opts_chunk$set(echo=F, dpi=300, fig.width=6, fig.height=4, dev.args = list(type = "cairo"))
+knitr::opts_chunk$set(echo=F, dpi=300, fig.width=6, fig.height=4, dev.args = list(type = "cairo"), warning=F, message=F) 
+
+#[christoffer.nordenlow@riksbank.se](mailto:christoffer.nordenlow@riksbank.se) 
+
+```
+
+
+
+
+# Odds Analysis
+
+
+## Odds Accuracy check
+
+### Premier League 2015-present. Hometeam
+
+**Actual outcome vs expected**
+  
+  
+```{r, message=F, warning=F}
+
+###Plot time
+
+team = "hometeam"
+league = "Premier League"
+
+plot_data <- odds_accuracy_check%>%
+  filter(league =="PL")%>%
+  filter(tecken == "H")%>%
+  mutate(percent_correct = percent_correct*100,
+         probability = odds * 100)
+
+#MA
+plot_data$MA_diff_vs_odds <- round((plot_data$diff_vs_odds + lag(plot_data$diff_vs_odds, 1)+ lag(plot_data$diff_vs_odds,2))/3*100, digits=2)
+#take away rows with na
+plot_data <-plot_data %>%
+  na.omit()	
+
+#add for making different colors in barplot for pos or neg numbers
+plot_data[["sign"]] = ifelse(plot_data[["MA_diff_vs_odds"]] >= 0, "positive", "negative")
+
+my_graph_3 <- ggplot(data=plot_data, aes(x=probability, y=MA_diff_vs_odds, fill = sign)) +
+  geom_bar(stat="identity")+
+  theme_classic()+
+ # scale_y_continuous(limits = c(-0.2, 0.3))+
+  labs(title = paste("Actual outcome vs expected,", league, team),
+       subtitle = paste("Smoothed results"),
+       x = paste("Probablity for", team, "victory (in %)"),
+       y = "Difference actual outcome vs expected (in %)")+
+  scale_x_continuous(breaks = seq(0, 100, by = 10))+
+  theme(
+    panel.grid.major.x = element_line(color = "grey80"),
+    panel.grid.major.y = element_line(color = "grey80"),
+    
+    panel.grid.minor.y = element_line(color = "grey80"),
+    panel.grid.minor.x = element_line(color = "grey80"),
+    axis.text = element_text(size = 10), 
+    axis.title = element_text(size = 10),
+    plot.title = element_text(size = 10, face ="bold")
+  )+
+  scale_fill_manual(values = c("positive" = "darkblue", "negative" = "red"))+
+  theme(legend.position="none")
+my_graph_3
+
+
+
+```
+
+
+### Premier League 2015-present. Awayeam
+
+**Actual outcome vs expected**
+
+  
+  
+```{r, message=F, warning=F}
+
+###Plot time
+
+team = "awayteam"
+league = "Premier League"
+
+plot_data <- odds_accuracy_check%>%
+  filter(league =="PL")%>%
+  filter(tecken == "A")%>%
+  mutate(percent_correct = percent_correct*100,
+         probability = odds * 100)
+
+#MA
+plot_data$MA_diff_vs_odds <- round((plot_data$diff_vs_odds + lag(plot_data$diff_vs_odds, 1)+ lag(plot_data$diff_vs_odds,2))/3*100, digits=2)
+#take away rows with na
+plot_data <-plot_data %>%
+  na.omit()	
+
+#add for making different colors in barplot for pos or neg numbers
+plot_data[["sign"]] = ifelse(plot_data[["MA_diff_vs_odds"]] >= 0, "positive", "negative")
+
+
+my_graph_3 <- ggplot(data=plot_data, aes(x=probability, y=MA_diff_vs_odds, fill = sign)) +
+  geom_bar(stat="identity")+
+  theme_classic()+
+ # scale_y_continuous(limits = c(-0.2, 0.3))+
+  labs(title = paste("Actual outcome vs expected,", league, team),
+       subtitle = paste("Smoothed results"),
+       x = paste("Probablity for", team, "victory (in %)"),
+       y = "Difference actual outcome vs expected (in %)")+
+  scale_x_continuous(breaks = seq(0, 100, by = 10))+
+  theme(
+    panel.grid.major.x = element_line(color = "grey80"),
+    panel.grid.major.y = element_line(color = "grey80"),
+    
+    panel.grid.minor.y = element_line(color = "grey80"),
+    panel.grid.minor.x = element_line(color = "grey80"),
+    axis.text = element_text(size = 10), 
+    axis.title = element_text(size = 10),
+    plot.title = element_text(size = 10, face ="bold")
+  )+
+  scale_fill_manual(values = c("positive" = "darkblue", "negative" = "red"))+
+  theme(legend.position="none")
+
+my_graph_3
+
+
+
+```
+
+
+### Championship 2015-present. Hometeam
+
+**Actual outcome vs expected**
+
+  
+  
+```{r, message=F, warning=F}
+
+###Plot time
+
+team = "hometeam"
+league = "Championship"
+
+plot_data <- odds_accuracy_check%>%
+  filter(league =="CS")%>%
+  filter(tecken == "H")%>%
+  mutate(percent_correct = percent_correct*100,
+         probability = odds * 100)
+
+#MA
+plot_data$MA_diff_vs_odds <- round((plot_data$diff_vs_odds + lag(plot_data$diff_vs_odds, 1)+ lag(plot_data$diff_vs_odds,2))/3*100, digits=2)
+#take away rows with na
+plot_data <-plot_data %>%
+  na.omit()	
+
+#add for making different colors in barplot for pos or neg numbers
+plot_data[["sign"]] = ifelse(plot_data[["MA_diff_vs_odds"]] >= 0, "positive", "negative")
+
+
+my_graph_3 <- ggplot(data=plot_data, aes(x=probability, y=MA_diff_vs_odds, fill = sign)) +
+  geom_bar(stat="identity")+
+  theme_classic()+
+ # scale_y_continuous(limits = c(-0.2, 0.3))+
+  labs(title = paste("Actual outcome vs expected,", league, team),
+       subtitle = paste("Smoothed results"),
+       x = paste("Probablity for", team, "victory (in %)"),
+       y = "Difference actual outcome vs expected (in %)")+
+  scale_x_continuous(breaks = seq(0, 100, by = 10))+
+  theme(
+    panel.grid.major.x = element_line(color = "grey80"),
+    panel.grid.major.y = element_line(color = "grey80"),
+    
+    panel.grid.minor.y = element_line(color = "grey80"),
+    panel.grid.minor.x = element_line(color = "grey80"),
+    axis.text = element_text(size = 10), 
+    axis.title = element_text(size = 10),
+    plot.title = element_text(size = 10, face ="bold")
+  )+
+  scale_fill_manual(values = c("positive" = "darkblue", "negative" = "red"))+
+  theme(legend.position="none")
+my_graph_3
+
+
+
+```
+
+
+### Championship 2015-present. Awayteam
+
+**Actual outcome vs expected**
+
+  
+  
+```{r, message=F, warning=F}
+
+###Plot time
+
+team = "awayteam"
+league = "Championship"
+
+plot_data <- odds_accuracy_check%>%
+  filter(league =="CS")%>%
+  filter(tecken == "A")%>%
+  mutate(percent_correct = percent_correct*100,
+         probability = odds * 100)
+
+#MA
+plot_data$MA_diff_vs_odds <- round((plot_data$diff_vs_odds + lag(plot_data$diff_vs_odds, 1)+ lag(plot_data$diff_vs_odds,2))/3*100, digits=2)
+#take away rows with na
+plot_data <-plot_data %>%
+  na.omit()	
+
+#add for making different colors in barplot for pos or neg numbers
+plot_data[["sign"]] = ifelse(plot_data[["MA_diff_vs_odds"]] >= 0, "positive", "negative")
+
+
+my_graph_3 <- ggplot(data=plot_data, aes(x=probability, y=MA_diff_vs_odds, fill = sign)) +
+  geom_bar(stat="identity")+
+  theme_classic()+
+ # scale_y_continuous(limits = c(-0.2, 0.3))+
+  labs(title = paste("Actual outcome vs expected,", league, team),
+       subtitle = paste("Smoothed results"),
+       x = paste("Probablity for", team, "victory (in %)"),
+       y = "Difference actual outcome vs expected (in %)")+
+  scale_x_continuous(breaks = seq(0, 100, by = 10))+
+  theme(
+    panel.grid.major.x = element_line(color = "grey80"),
+    panel.grid.major.y = element_line(color = "grey80"),
+    
+    panel.grid.minor.y = element_line(color = "grey80"),
+    panel.grid.minor.x = element_line(color = "grey80"),
+    axis.text = element_text(size = 10), 
+    axis.title = element_text(size = 10),
+    plot.title = element_text(size = 10, face ="bold")
+  )+
+  scale_fill_manual(values = c("positive" = "darkblue", "negative" = "red"))+
+  theme(legend.position="none")
+my_graph_3
+
+
+
+```
