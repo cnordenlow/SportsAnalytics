@@ -1,4 +1,4 @@
-## Welcome to cnordenlow SportsAnalyics
+## Welcome to cnordenlow SportsAnalytics
 
 *Sports, analytics and R is a great combo. That´s why this page exist.* 
 
