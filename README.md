@@ -6,7 +6,7 @@
 
 *Below page goes through all Premier League and Championship games from 2015 season. Aggregates bookmakers odds to find out how these perform over a large dataset. The hypothesis is that if a bookmaker odds states the probability (inverted odds) for an awayteam victory in PL to 50 percent, we should come to expect that 50 percent of all games with this probability the awayteam should succed. Let´d find out.*
 
-[Templates](https://cnordenlow.github.io/main/Templates)
+[Odds Analysis](https://cnordenlow.github.io/SportsAnalytics/odds_analysis)
 
 
 ##### Analysis on the way
