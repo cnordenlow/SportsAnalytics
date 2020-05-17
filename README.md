@@ -9,5 +9,6 @@
 [Templates](https://cnordenlow.github.io/main/Templates)
 
 
-###### Analysis on the way
+##### Analysis on the way
+
 *Are odds too much fixed on the table standings? Coming up is an analysis that re-creates the table for PL and CS for each game and then analysis the odds for the next game for each time depending on standings.*
